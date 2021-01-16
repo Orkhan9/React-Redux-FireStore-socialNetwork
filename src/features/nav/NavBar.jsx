@@ -4,7 +4,7 @@ import {NavLink,useHistory} from "react-router-dom";
 import SignedOutMenu from "./SignedOutMenu";
 import SignedInMenu from "./SignedInMenu";
 
-const NavBar = ({setFormOpen}) => {
+const NavBar = () => {
     const history=useHistory();
     const [authenticated,setAuthenticated]=useState(false);
 
@@ -21,6 +21,7 @@ const NavBar = ({setFormOpen}) => {
                     Re-vents
                 </MenuItem>
                 <MenuItem as={NavLink} to='/events' name='Events' />
+                <MenuItem as={NavLink} to='/sandbox' name='Sandbox' />
                 {authenticated &&
                 <MenuItem as={NavLink} to='/createEvent' >
                     <Button positive inverted content='Create Event' />
@@ -28,8 +29,6 @@ const NavBar = ({setFormOpen}) => {
                 {authenticated
                     ? <SignedInMenu signOut={handleSignOut} />
                     : <SignedOutMenu setAuthenticated={setAuthenticated} />}
-
-
             </Container>
         </Menu>
     );
