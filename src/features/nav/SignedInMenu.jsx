@@ -1,29 +1,54 @@
-import React from 'react';
-import {Dropdown, DropdownItem, DropdownMenu, Image, MenuItem} from "semantic-ui-react";
-import {Link, useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {signOutUser} from "../auth/authActions";
+import React from "react";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Image,
+  MenuItem,
+} from "semantic-ui-react";
+import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import {signOutFirebase} from "../../app/firestore/firebaseService";
 
 const SignedInMenu = () => {
-    const dispatch = useDispatch();
-    const {currentUser}=useSelector(state=>state.auth);
-    const history = useHistory();
-    return (
-        <MenuItem position='right'>
-            <Image avatar spaced='right' src={ currentUser.photoURL || '/assets/user.png'}/>
-            <Dropdown pointing='top left' text={currentUser.email}>
-                <DropdownMenu>
-                    <DropdownItem as={Link} to='/createEvent'
-                                  text='Create Event' icon='plus'/>
-                    <DropdownItem text='My profile' icon='user'/>
-                    <DropdownItem onClick={() => {
-                        dispatch(signOutUser());
-                        history.push('/');
-                    }} text='Sign out' icon='power'/>
-                </DropdownMenu>
-            </Dropdown>
-        </MenuItem>
-    );
+  const { currentUser } = useSelector((state) => state.auth);
+  const history = useHistory();
+
+ async function handleSignOut(){
+     try{
+        await signOutFirebase();
+        history.push('/');
+     }catch(error){
+        toast.error(error.message);
+     }
+ }
+
+  return (
+    <MenuItem position='right'>
+      <Image
+        avatar
+        spaced='right'
+        src={currentUser.photoURL || "/assets/user.png"}
+      />
+      <Dropdown pointing='top left' text={currentUser.email}>
+        <DropdownMenu>
+          <DropdownItem
+            as={Link}
+            to='/createEvent'
+            text='Create Event'
+            icon='plus'
+          />
+          <DropdownItem text='My profile' icon='user' />
+          <DropdownItem
+            onClick={handleSignOut}
+            text='Sign out'
+            icon='power'
+          />
+        </DropdownMenu>
+      </Dropdown>
+    </MenuItem>
+  );
 };
 
 export default SignedInMenu;
