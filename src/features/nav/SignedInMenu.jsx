@@ -31,7 +31,7 @@ const SignedInMenu = () => {
         spaced='right'
         src={currentUser.photoURL || "/assets/user.png"}
       />
-      <Dropdown pointing='top left' text={currentUser.email}>
+      <Dropdown pointing='top left' text={currentUser.displayName}>
         <DropdownMenu>
           <DropdownItem
             as={Link}
@@ -40,6 +40,7 @@ const SignedInMenu = () => {
             icon='plus'
           />
           <DropdownItem text='My profile' icon='user' />
+          <DropdownItem as={Link} to='/account' text='My account' icon='settings' />
           <DropdownItem
             onClick={handleSignOut}
             text='Sign out'

@@ -45,7 +45,7 @@ export async function socialLogin(selectedProvider) {
     }
 }
 
-// export function updateUserPassword(creds) {
-//     const user = firebase.auth().currentUser;
-//     return user.updatePassword(creds.newPassword1);
-// }
+export function updateUserPassword(creds) {
+    const user = firebase.auth().currentUser;
+    return user.updatePassword(creds.newPassword1);
+}
